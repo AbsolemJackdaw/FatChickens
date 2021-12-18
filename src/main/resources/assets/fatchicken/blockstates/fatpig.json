@@ -2,18 +2,18 @@
   "variants": {
     "facing=east": {
       "y": 90,
-      "model": "fatchicken:block/fatchicken"
+      "model": "fatchicken:block/fatpig"
     },
     "facing=west": {
       "y": 270,
-      "model": "fatchicken:block/fatchicken"
+      "model": "fatchicken:block/fatpig"
     },
     "facing=north": {
-      "model": "fatchicken:block/fatchicken"
+      "model": "fatchicken:block/fatpig"
     },
     "facing=south": {
       "y": 180,
-      "model": "fatchicken:block/fatchicken"
+      "model": "fatchicken:block/fatpig"
     }
   }
 }
