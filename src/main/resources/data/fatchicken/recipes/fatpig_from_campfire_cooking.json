@@ -1,9 +1,9 @@
 {
   "type": "minecraft:campfire_cooking",
   "ingredient": {
-    "item": "minecraft:porkchop"
+    "item": "fatchicken:fatpig_raw"
   },
-  "result": "minecraft:cooked_porkchop",
+  "result": "fatchicken:fatpig",
   "experience": 0.5,
   "cookingtime": 2000
 }

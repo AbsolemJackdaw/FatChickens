@@ -1,4 +1,4 @@
-package be.jackdaw.fatchicken.entity.render;
+package be.jackdaw.fatchicken.entity.render.pig;
 
 import be.jackdaw.fatchicken.entity.FatChicken;
 import be.jackdaw.fatchicken.entity.FatPig;

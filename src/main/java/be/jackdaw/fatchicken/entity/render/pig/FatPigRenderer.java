@@ -1,13 +1,10 @@
-package be.jackdaw.fatchicken.entity.render;
+package be.jackdaw.fatchicken.entity.render.pig;
 
-import be.jackdaw.fatchicken.capability.Fat;
-import be.jackdaw.fatchicken.entity.FatChicken;
 import be.jackdaw.fatchicken.entity.FatPig;
 import be.jackdaw.fatchicken.event.ModelRegistry;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 
 public class FatPigRenderer extends MobRenderer<FatPig, FatPigModel<FatPig>> {
     private static final ResourceLocation PIG_LOCATION = new ResourceLocation("textures/entity/pig/pig.png");

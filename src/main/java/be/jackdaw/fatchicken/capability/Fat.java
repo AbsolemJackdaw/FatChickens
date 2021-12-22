@@ -2,7 +2,7 @@ package be.jackdaw.fatchicken.capability;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.util.LazyOptional;
 
 import java.util.Random;
@@ -14,7 +14,7 @@ public class Fat {
     private Random rand = new Random();
     private boolean growfat = false;
 
-    public static LazyOptional<Fat> get(Animal animal) {
+    public static LazyOptional<Fat> get(LivingEntity animal) {
 
         return animal.getCapability(FatCap.CAPABILITY, null);
     }

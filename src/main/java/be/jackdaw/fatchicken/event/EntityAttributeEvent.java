@@ -15,6 +15,8 @@ public class EntityAttributeEvent {
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(EntityRegistry.FAT_CHICKEN.get(), Animal.createMobAttributes().add(Attributes.MAX_HEALTH, 6.0D).add(Attributes.MOVEMENT_SPEED, 0.10D).build());
         event.put(EntityRegistry.FAT_PIG.get(), Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 14.0D).add(Attributes.MOVEMENT_SPEED, 0.10D).build());
+        event.put(EntityRegistry.FAT_FISH.get(), Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 6.0D).add(Attributes.MOVEMENT_SPEED, 0.15D).build());
+
     }
 }
 

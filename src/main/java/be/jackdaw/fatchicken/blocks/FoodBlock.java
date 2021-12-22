@@ -51,8 +51,9 @@ public class FoodBlock extends Block {
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
-        Direction dir = state.getValue(FACING);
-        return directionalShape(dir);
+//        Direction dir = state.getValue(FACING);
+//        return directionalShape(dir);
+        return Shapes.empty();
     }
 
     @Override

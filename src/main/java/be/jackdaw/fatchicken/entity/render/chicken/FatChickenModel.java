@@ -1,4 +1,4 @@
-package be.jackdaw.fatchicken.entity.render;
+package be.jackdaw.fatchicken.entity.render.chicken;
 
 import be.jackdaw.fatchicken.entity.FatChicken;
 import net.minecraft.client.model.ChickenModel;

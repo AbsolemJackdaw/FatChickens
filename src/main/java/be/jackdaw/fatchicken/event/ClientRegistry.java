@@ -2,9 +2,14 @@ package be.jackdaw.fatchicken.event;
 
 
 import be.jackdaw.fatchicken.FatChickenMod;
-import be.jackdaw.fatchicken.entity.render.FatChickenRenderer;
-import be.jackdaw.fatchicken.entity.render.FatPigRenderer;
+import be.jackdaw.fatchicken.entity.render.chicken.FatChickenRenderer;
+import be.jackdaw.fatchicken.entity.render.fish.FatFishRenderer;
+import be.jackdaw.fatchicken.entity.render.pig.FatPigRenderer;
+import be.jackdaw.fatchicken.entity.render.cloth.TableClothRenderer;
+import be.jackdaw.fatchicken.registry.BlockRegistry;
 import be.jackdaw.fatchicken.registry.EntityRegistry;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,6 +24,13 @@ public class ClientRegistry {
 
         EntityRenderers.register(EntityRegistry.FAT_CHICKEN.get(), FatChickenRenderer::new);
         EntityRenderers.register(EntityRegistry.FAT_PIG.get(), FatPigRenderer::new);
+        EntityRenderers.register(EntityRegistry.FAT_FISH.get(), FatFishRenderer::new);
+        EntityRenderers.register(EntityRegistry.TABLECLOTH.get(), TableClothRenderer::new);
+
+        ItemBlockRenderTypes.setRenderLayer(BlockRegistry.CAKE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockRegistry.FATFISH.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockRegistry.FATPIG.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockRegistry.FATCHICKEN.get(), RenderType.cutout());
 
     }
 }
