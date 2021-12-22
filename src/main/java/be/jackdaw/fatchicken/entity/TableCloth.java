@@ -85,6 +85,7 @@ public class TableCloth extends HangingEntity {
         this.setBoundingBox(new AABB(d1 - d4, d2 - d5, d3 - d6, d1 + d4, d2 + d5, d3 + d6));
     }
 
+    @Override
     public boolean survives() {
         if (!this.level.noCollision(this)) {
             return false;
@@ -113,9 +114,9 @@ public class TableCloth extends HangingEntity {
 
     @Override
     public void dropItem(@Nullable Entity entity) {
-        if (entity != null && !entity.level.isClientSide) {
+        if (!level.isClientSide) {
             BlockPos pos = this.getPos();
-            entity.level.addFreshEntity(new ItemEntity(entity.level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ItemRegistry.TABLECLOTH.get())));
+            level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ItemRegistry.TABLECLOTH.get())));
         }
     }
 
