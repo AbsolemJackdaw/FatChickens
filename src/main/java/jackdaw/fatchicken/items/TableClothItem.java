@@ -1,6 +1,7 @@
 package jackdaw.fatchicken.items;
 
 import jackdaw.fatchicken.entity.TableCloth;
+import jackdaw.fatchicken.registry.EntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -9,15 +10,16 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.HangingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.HangingEntityItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class TableClothItem extends HangingEntityItem {
-    public TableClothItem(EntityType<? extends HangingEntity> type, Properties properties) {
-        super(type, properties);
+public class TableClothItem extends Item {
+    public TableClothItem(Properties properties) {
+        super(properties);
     }
 
     @Override
@@ -27,7 +29,7 @@ public class TableClothItem extends HangingEntityItem {
         BlockPos blockpos1 = blockpos.relative(direction);
         Player player = context.getPlayer();
         ItemStack itemstack = context.getItemInHand();
-        if (player != null && !this.mayPlace(player, direction, itemstack, blockpos1)) {
+        if (player != null && !this.canPlaceAt(player, direction, itemstack, blockpos1)) {
             return InteractionResult.FAIL;
         } else {
             Level level = context.getLevel();
@@ -53,8 +55,7 @@ public class TableClothItem extends HangingEntityItem {
         }
     }
 
-    @Override
-    protected boolean mayPlace(Player player, Direction dir, ItemStack stack, BlockPos pos) {
+    protected boolean canPlaceAt(Player player, Direction dir, ItemStack stack, BlockPos pos) {
         return !player.level.isOutsideBuildHeight(pos) && player.mayUseItemAt(pos, dir, stack);
     }
 }

@@ -16,20 +16,18 @@ public class EntityRegistry {
 
     public static final RegistryObject<EntityType<FatChicken>> FAT_CHICKEN = ENTITIES.register("fatchicken",
             () -> EntityType.Builder.of(FatChicken::new, MobCategory.CREATURE)
-                    .sized(0.4F, 0.7F).clientTrackingRange(10).build(FatChickenMod.MODID + ":fatchicken"));
+                    .sized(0.4F, 0.7F).clientTrackingRange(10).build("fatchicken"));
 
     public static final RegistryObject<EntityType<FatPig>> FAT_PIG = ENTITIES.register("fatpig",
             () -> EntityType.Builder.of(FatPig::new, MobCategory.CREATURE)
-                    .sized(0.9F, 0.9F).clientTrackingRange(10).build(FatChickenMod.MODID + ":fatpig"));
+                    .sized(0.9F, 0.9F).clientTrackingRange(10).build("fatpig"));
 
     public static final RegistryObject<EntityType<FatFish>> FAT_FISH = ENTITIES.register("fatfish",
             () -> EntityType.Builder.of(FatFish::new, MobCategory.CREATURE)
-                    .sized(0.5F, 0.5F).clientTrackingRange(10).build(FatChickenMod.MODID + ":fatfish"));
+                    .sized(0.5F, 0.5F).clientTrackingRange(10).build("fatfish"));
 
     //used for the hanging item registry
-    public static final EntityType<TableCloth> TABLECLOTHTYPE = EntityType.Builder.<TableCloth>of(TableCloth::new, MobCategory.MISC)
-            .sized(0.5F, 0.5F).clientTrackingRange(10).build(FatChickenMod.MODID + ":tablecloth");
-
     public static final RegistryObject<EntityType<TableCloth>> TABLECLOTH = ENTITIES.register("tablecloth",
-            () -> TABLECLOTHTYPE);
+            () -> EntityType.Builder.<TableCloth>of(TableCloth::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F).clientTrackingRange(10).build("tablecloth"));
 }

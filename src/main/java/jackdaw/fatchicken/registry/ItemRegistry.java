@@ -36,6 +36,6 @@ public class ItemRegistry {
     public static RegistryObject<Item> CAKE = ITEMS.register("icecreamlog", () -> new BlockItem(BlockRegistry.CAKE.get(), new Item.Properties().
             food(cake).tab(CreativeModeTab.TAB_FOOD)));
 
-    public static RegistryObject<Item> TABLECLOTH = ITEMS.register("tablecloth", () -> new TableClothItem(EntityRegistry.TABLECLOTHTYPE, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
+    public static RegistryObject<Item> TABLECLOTH = ITEMS.register("tablecloth", () -> new TableClothItem(new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
 }
