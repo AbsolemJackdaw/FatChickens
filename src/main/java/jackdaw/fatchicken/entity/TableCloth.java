@@ -147,7 +147,7 @@ public class TableCloth extends HangingEntity {
 
     @Override
     public @NotNull Packet<?> getAddEntityPacket() {
-        return new ClientboundAddEntityPacket(this, this.getType(), this.direction.get3DDataValue(), this.getPos());
+        return new ClientboundAddEntityPacket(this, this.direction.get3DDataValue(), this.getPos());
     }
 
     @Override

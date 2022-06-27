@@ -31,7 +31,7 @@ public class InteractAnimalEvent {
             return FatPig.make(level);
         } else if (skinny.equals(EntityType.SALMON)) {
             return FatFish.make(level);
-        } else throw new NoSuchTransformationException(skinny.getRegistryName().toString());
+        } else throw new NoSuchTransformationException(skinny.getDescriptionId());
     }
 
     @SubscribeEvent
