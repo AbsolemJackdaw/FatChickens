@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
+  "cardinal-components": [
+    "fatchicken:fatcap"
+  ],
   "quilt_loader": {
     "group": "jackdaw",
     "id": "fatchicken",
     "version": "${version}",
-    "cardinal-components": [
-      "fatchicken:fatcap"
-    ],
     "intermediate_mappings": "net.fabricmc:intermediary",
     "name": "Fat Chicken",
     "description": "Feed your chickens berries and make 'em all ready for the holidays !\n",
@@ -27,7 +27,7 @@
       "client": [
         "jackdaw.fatchicken.FatChickenClient"
       ],
-      "cardinal-components-entity": [
+      "cardinal-components": [
         "jackdaw.fatchicken.capability.Components"
       ]
     },
