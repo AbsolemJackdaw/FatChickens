@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smoking",
-  "ingredient": {
-    "item": "fatchicken:fatchicken_raw"
-  },
-  "result": "fatchicken:fatchicken",
-  "experience": 2.0,
-  "cookingtime": 100
-}
