@@ -53,7 +53,7 @@ public class CommonMod {
     }
 
     public static class Models {
-        public static final ModelResourceLocation TABLECLOTH = new ModelResourceLocation(new ResourceLocation(MODID, "block/" + CLOTH_ID), "");
+        public static final ModelResourceLocation TABLECLOTH = new ModelResourceLocation(new ResourceLocation(MODID, CLOTH_ID), "");
         public static final ModelLayerLocation FATCHICKEN = new ModelLayerLocation(new ResourceLocation(MODID), CHICKEN_ID);
         public static final ModelLayerLocation FATPIG = new ModelLayerLocation(new ResourceLocation(MODID), PIG_ID);
         public static final ModelLayerLocation FATFISH = new ModelLayerLocation(new ResourceLocation(MODID), FISH_ID);
