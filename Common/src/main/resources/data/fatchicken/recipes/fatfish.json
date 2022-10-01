@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "fatchicken:fatfish_raw"
+  },
+  "result": "fatchicken:fatfish",
+  "experience": 0.6,
+  "cookingtime": 400
+}

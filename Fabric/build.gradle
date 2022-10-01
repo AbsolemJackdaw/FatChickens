@@ -1,0 +1,92 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
+plugins {
+    id 'fabric-loom' version '0.12-SNAPSHOT'
+    id 'maven-publish'
+    id 'idea'
+    id 'net.darkhax.curseforgegradle' version '1.0.11'
+}
+
+repositories {
+    maven {
+        name = "Ladysnake Mods"
+        url = 'https://ladysnake.jfrog.io/artifactory/mods'
+    }
+}
+archivesBaseName = "${mod_name}-fabric-${minecraft_version}"
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+    implementation project(":Common")
+
+    modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.0.0-beta.1")
+    modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.0.0-beta.1")
+}
+
+loom {
+    runs {
+        client {
+            client()
+            setConfigName("Fabric Client")
+            ideConfigGenerated(true)
+            runDir("run")
+        }
+        server {
+            server()
+            setConfigName("Fabric Server")
+            ideConfigGenerated(true)
+            runDir("run")
+        }
+    }
+}
+
+
+processResources {
+    from project(":Common").sourceSets.main.resources
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile) {
+    source(project(":Common").sourceSets.main.allSource)
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            url "file://" + System.getenv("local_maven")
+        }
+    }
+}
+task publishCurseForge(type: TaskPublishCurseForge) {
+
+    apiToken = "${api_token_paintings}"
+
+    // The main file to upload
+    def mainFile = upload(559347, file("${project.buildDir}/libs/${archivesBaseName}-${version}.jar"))
+    mainFile.releaseType = 'release'
+    mainFile.changelog = "${changelog}"
+    mainFile.addModLoader('Quilt')
+    mainFile.addModLoader('Fabric')
+    mainFile.changelogType = 'markdown'
+    mainFile.addRequirement('fabric-api')
+    mainFile.addRequirement('cardinal-components')
+    mainFile.addJavaVersion('Java 17')
+
+}

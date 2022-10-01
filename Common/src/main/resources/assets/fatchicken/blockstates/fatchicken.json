@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "y": 90,
+      "model": "fatchicken:block/fatchicken"
+    },
+    "facing=west": {
+      "y": 270,
+      "model": "fatchicken:block/fatchicken"
+    },
+    "facing=north": {
+      "model": "fatchicken:block/fatchicken"
+    },
+    "facing=south": {
+      "y": 180,
+      "model": "fatchicken:block/fatchicken"
+    }
+  }
+}

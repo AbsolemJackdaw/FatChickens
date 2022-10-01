@@ -1,0 +1,23 @@
+modLoader="javafml"
+loaderVersion="[43,)"
+license="GNUv3"
+[[mods]]
+modId="fatchicken"
+version="${file.jarVersion}"
+displayName="Fat Chickens"
+credits="Absolem Jackdaw"
+description='''
+Feed your chickens berries and make 'em all ready for the holidays !
+'''
+[[dependencies.fatchicken]] #optional
+    modId="forge" #mandatory
+    mandatory=true #mandatory
+    versionRange="[43,)" #mandatory
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.fatchicken]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.19,)"
+    ordering="NONE"
+    side="BOTH"
