@@ -10,7 +10,7 @@ plugins {
 repositories {
     maven {
         name = "Ladysnake Mods"
-        url = 'https://ladysnake.jfrog.io/artifactory/mods'
+        url = 'https://maven.ladysnake.org/releases'
     }
 }
 archivesBaseName = "${mod_name}-fabric-${minecraft_version}"
