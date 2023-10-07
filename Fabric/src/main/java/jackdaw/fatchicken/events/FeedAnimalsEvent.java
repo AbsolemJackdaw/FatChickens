@@ -43,7 +43,7 @@ public class FeedAnimalsEvent {
                     return InteractionResult.SUCCESS;
                 }
             }
-            return InteractionResult.FAIL;
+            return InteractionResult.PASS;
         });
     }
 }
