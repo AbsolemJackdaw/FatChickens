@@ -8,7 +8,6 @@ import jackdaw.fatchicken.registry.FatChickenItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Items;
 
 public class FatChicken implements ModInitializer {
     @Override
@@ -25,7 +24,7 @@ public class FatChicken implements ModInitializer {
             CommonMod.Items.rawFood.forEach(content::accept);
         });
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(content -> {
-            content.accept(CommonMod.Items.TABLE_CLOTH_ITEM);
+            content.accept(CommonMod.Items.TABLE_CLOTH);
         });
     }
 }

@@ -1,7 +1,7 @@
 package jackdaw.fatchicken.capability;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import java.util.Random;
 
@@ -12,7 +12,6 @@ public class CommonFat {
     Random rand = new Random();
     boolean growfat = false;
 
-
     public void feed() {
         fatChance += rand.nextInt(5);
         growfat = rand.nextInt(99) + 1 < fatChance;
@@ -22,16 +21,11 @@ public class CommonFat {
         return growfat;
     }
 
-    public Tag writeData() {
-        CompoundTag tag = new CompoundTag();
+    public void writeFatData(ValueOutput tag) {
         tag.putInt("chance", fatChance);
-        return tag;
     }
 
-    public void readData(Tag nbt) {
-
-        CompoundTag tag = ((CompoundTag) nbt);
-        this.fatChance = tag.getInt("chance");
+    public void readFatData(ValueInput tag) {
+        this.fatChance = tag.getIntOr("chance", 0);
     }
-
 }

@@ -14,7 +14,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 import java.util.Random;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME, modid = CommonMod.MODID)
+@EventBusSubscriber(modid = CommonMod.ID)
 public class InteractAnimalEvent {
 
     private static final Random random = new Random();
@@ -26,7 +26,7 @@ public class InteractAnimalEvent {
             if (Fatties.hasFatCap(event.getTarget().getType())) {
                 if (event.getTarget() instanceof LivingEntity living) {
                     var cap = living.getData(FatChickenMod.FATTIESDATA);
-                    if (event.getLevel().isClientSide) {
+                    if (event.getLevel().isClientSide()) {
                         for (int i = 0; i < 3; i++)
                             event.getLevel().addParticle(ParticleTypes.HAPPY_VILLAGER,
                                     event.getTarget().getRandomX(1.0D),

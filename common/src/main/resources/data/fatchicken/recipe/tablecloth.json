@@ -1,14 +1,12 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "category": "misc",
   "ingredients": [
-    {
-      "tag": "minecraft:carpets"
-    },
-    {
-      "item": "minecraft:gold_nugget"
-    }
+      "#minecraft:wool_carpets",
+      "minecraft:gold_nugget"
   ],
   "result": {
+    "count": 1,
     "id": "fatchicken:tablecloth"
   }
 }

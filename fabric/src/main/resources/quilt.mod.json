@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
   "cardinal-components": [
-    "fatchicken:fatcap"
+    "fatchicken:fatties_data"
   ],
   "quilt_loader": {
-    "group": "jackdaw",
+    "group": "absolemjackdaw",
     "id": "fatchicken",
     "version": "${version}",
     "intermediate_mappings": "net.fabricmc:intermediary",
     "name": "Fat Chicken",
-    "description": "Feed your chickens berries and make 'em all ready for the holidays !\n",
+    "description": "${description}",
     "authors": [
       "Absolem Jackdaw"
     ],
@@ -17,7 +17,7 @@
       "homepage": "https://www.curseforge.com/minecraft/mc-mods/fat-chicken",
       "sources": "https://github.com/AbsolemJackdaw/FatChickens"
     },
-    "license": "GNU V3",
+    "license": "MIT",
     "icon": "assets/modid/icon.png",
     "environment": "*",
     "entrypoints": {

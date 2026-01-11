@@ -4,12 +4,14 @@ import jackdaw.fatchicken.CommonMod;
 import jackdaw.fatchicken.registry.FatChickenEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerEntity;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -18,15 +20,15 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.decoration.HangingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.variant.VariantUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DiodeBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
-import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class TableCloth extends HangingEntity {
 
@@ -49,11 +51,10 @@ public class TableCloth extends HangingEntity {
 
     @Override
     protected void setDirection(@NotNull Direction direction) {
-        Validate.notNull(direction);
-        this.direction = direction;
+        super.setDirectionRaw(direction);
         if (direction.getAxis().isHorizontal()) {
             this.setXRot(0.0F);
-            this.setYRot((float) (this.direction.get2DDataValue() * 90));
+            this.setYRot((float) (this.getDirection().get2DDataValue() * 90));
         } else {
             this.setXRot((float) (-90 * direction.getAxisDirection().getStep()));
             this.setYRot(0.0F);
@@ -66,17 +67,15 @@ public class TableCloth extends HangingEntity {
 
     @Override
     protected AABB calculateBoundingBox(BlockPos blockPos, Direction direction) {
-        if (direction == null) //direction will be null at init
-            return AABB.of(BoundingBox.infinite());
         double scale = 0.46875D;
-        double x = (double) this.pos.getX() + 0.5D - (double) this.direction.getStepX() * scale;
-        double y = (double) this.pos.getY() + 0.5D - (double) this.direction.getStepY() * scale;
-        double z = (double) this.pos.getZ() + 0.5D - (double) this.direction.getStepZ() * scale;
+        double x = (double) this.pos.getX() + 0.5D - (double) this.getDirection().getStepX() * scale;
+        double y = (double) this.pos.getY() + 0.5D - (double) this.getDirection().getStepY() * scale;
+        double z = (double) this.pos.getZ() + 0.5D - (double) this.getDirection().getStepZ() * scale;
         this.setPosRaw(x, y, z);
         double width = 16;
         double height = 16;
         double depth = 16;
-        Direction.Axis direction$axis = this.direction.getAxis();
+        Direction.Axis direction$axis = this.getDirection().getAxis();
         switch (direction$axis) {
             case X -> width = 1.0D;
             case Y -> height = 1.0D;
@@ -91,35 +90,39 @@ public class TableCloth extends HangingEntity {
 
     @Override
     public boolean survives() {
-        if (!this.level().noCollision(this)) {
+
+        if (this.hasLevelCollision(this.getPopBox())) {
             return false;
         } else {
-            BlockState blockstate = this.level().getBlockState(this.pos.relative(this.direction.getOpposite()));
-            return (blockstate.isSolid() || this.direction.getAxis().isHorizontal() && DiodeBlock.isDiode(blockstate)) && this.level().getEntities(this, this.getBoundingBox(), HANGING_ENTITY).isEmpty();
+            boolean flag = BlockPos.betweenClosedStream(this.calculateSupportBox()).allMatch((pos) -> {
+                BlockState blockstate = this.level().getBlockState(pos);
+                var canPlace = this.getDirection().getAxis().isHorizontal() && DiodeBlock.isDiode(blockstate) && this.level().getEntities(this, this.getBoundingBox(), entity -> entity.getType().equals(FatChickenEntities.CLOTHTYPE)).isEmpty();
+                return blockstate.isSolid() || canPlace;
+            });
+            return flag && this.canCoexist(false);
         }
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag p_31808_) {
-        super.addAdditionalSaveData(p_31808_);
-        p_31808_.putByte("Facing", (byte) this.direction.get3DDataValue());
-        p_31808_.putBoolean("Invisible", this.isInvisible());
+    public void addAdditionalSaveData(ValueOutput tag) {
+        super.addAdditionalSaveData(tag);
+        tag.store("Facing", Direction.LEGACY_ID_CODEC, this.getDirection());
+        tag.putBoolean("Invisible", this.isInvisible());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        this.setDirection(Direction.from3DDataValue(tag.getByte("Facing")));
-        this.setInvisible(tag.getBoolean("Invisible"));
+        this.setDirection(Direction.from3DDataValue(tag.getByteOr("Facing", (byte) 0)));
+        this.setDirection((Direction) tag.read("Facing", Direction.LEGACY_ID_CODEC).orElse(Direction.DOWN));
+        this.setInvisible(tag.getBooleanOr("Invisible", false));
     }
 
     @Override
-    public void dropItem(@Nullable Entity entity) {
-        if (!level().isClientSide) {
-            BlockPos pos = this.getPos();
-            level().addFreshEntity(new ItemEntity(level(), pos.getX(), pos.getY(), pos.getZ(), new ItemStack(CommonMod.Items.TABLE_CLOTH_ITEM)));
-            this.playSound(this.getBreakSound(), 1.0F, 1.0F);
-        }
+    public void dropItem(ServerLevel serverLevel, @org.jspecify.annotations.Nullable Entity entity) {
+        BlockPos pos = this.getPos();
+        serverLevel.addFreshEntity(new ItemEntity(serverLevel, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(CommonMod.Items.TABLE_CLOTH)));
+        this.playSound(this.getBreakSound(), 1.0F, 1.0F);
     }
 
     @Override
@@ -133,7 +136,11 @@ public class TableCloth extends HangingEntity {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+    }
 
+    public void onSyncedDataUpdated(EntityDataAccessor<?> p_478654_) {
+        super.onSyncedDataUpdated(p_478654_);
     }
 
     @Override
@@ -158,7 +165,7 @@ public class TableCloth extends HangingEntity {
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {
-        return new ClientboundAddEntityPacket(this, this.direction.get3DDataValue(), this.getPos());
+        return new ClientboundAddEntityPacket(this, this.getDirection().get3DDataValue(), this.getPos());
     }
 
     @Override
@@ -169,7 +176,7 @@ public class TableCloth extends HangingEntity {
 
     @Override
     public ItemStack getPickResult() {
-        return new ItemStack(CommonMod.Items.TABLE_CLOTH_ITEM);
+        return new ItemStack(CommonMod.Items.TABLE_CLOTH);
     }
 
     public SoundEvent getBreakSound() {

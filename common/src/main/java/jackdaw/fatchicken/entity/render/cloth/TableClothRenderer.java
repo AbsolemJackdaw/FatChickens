@@ -5,60 +5,58 @@ import com.mojang.math.Axis;
 import jackdaw.fatchicken.CommonMod;
 import jackdaw.fatchicken.entity.TableCloth;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
-public class TableClothRenderer<T extends TableCloth> extends EntityRenderer<T> {
-    private final Minecraft minecraft = Minecraft.getInstance();
+public class TableClothRenderer extends EntityRenderer<TableCloth, TableClothRenderState> {
+    private final ItemStack model;
+    private final ItemModelResolver resolver;
 
     public TableClothRenderer(EntityRendererProvider.Context context) {
         super(context);
+        model = new ItemStack(Items.STICK);
+        var id = Identifier.fromNamespaceAndPath(CommonMod.ID, CommonMod.CLOTH.concat("_model"));
+        model.set(DataComponents.ITEM_MODEL, id);
+        resolver = context.getItemModelResolver();
     }
 
-    public void render(T cloth, float x, float z, PoseStack stack, MultiBufferSource buffer, int totalLight) {
-        super.render(cloth, x, z, stack, buffer, totalLight);
+    @Override
+    public TableClothRenderState createRenderState() {
+        return new TableClothRenderState();
+    }
+
+    @Override
+    public void extractRenderState(TableCloth entity, TableClothRenderState reusedState, float partialTick) {
+        super.extractRenderState(entity, reusedState, partialTick);
+        resolver.updateForTopItem(reusedState.clothState, this.model, ItemDisplayContext.NONE, entity.level(), null, (int) entity.blockPosition().asLong());
+    }
+
+    @Override
+    public void submit(TableClothRenderState cloth, PoseStack stack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
+        super.submit(cloth, stack, nodeCollector, cameraRenderState);
         stack.pushPose();
 
         Direction direction = cloth.getDirection();
-        Vec3 vec3 = this.getRenderOffset(cloth, z);
-        stack.translate(-vec3.x(), -vec3.y(), -vec3.z());
-        stack.translate((double) direction.getStepX() * 0.46875D, (double) direction.getStepY() * 0.46875D, (double) direction.getStepZ() * 0.46875D);
-        stack.mulPose(Axis.YP.rotationDegrees(180.0F - cloth.getYRot()));
-        BlockRenderDispatcher blockrenderdispatcher = this.minecraft.getBlockRenderer();
+        stack.mulPose(Axis.YP.rotationDegrees(180.0F - Direction.getYRot(cloth.getDirection())));
         try {
-            BakedModel model = CommonMod.Models.LOADER_SPECIFIC_MODEL.get();
             stack.pushPose();
-            stack.translate(-0.5D, -0.5D, -0.5D);
-            blockrenderdispatcher.getModelRenderer().renderModel(stack.last(), buffer.getBuffer(Sheets.cutoutBlockSheet()), null, model, 1.0F, 1.0F, 1.0F, totalLight, OverlayTexture.NO_OVERLAY);
+            stack.translate(0D, 0.47d, 0D);
+            cloth.clothState.submit(stack, nodeCollector, cloth.lightCoords, OverlayTexture.NO_OVERLAY, 0);
             stack.popPose();
         } catch (NullPointerException e) {
             throw new RuntimeException("No baked model registered to render for the table cloth. report to mod author", e);
         }
-
         stack.popPose();
     }
-
-    public @NotNull Vec3 getRenderOffset(T cloth, float afloat) {
-        return new Vec3((float) cloth.getDirection().getStepX() * 0.3F, -0.25D, (float) cloth.getDirection().getStepZ() * 0.3F);
-    }
-
-    public @NotNull ResourceLocation getTextureLocation(@NotNull T cloth) {
-        return TextureAtlas.LOCATION_BLOCKS;
-    }
-
-    protected boolean shouldShowName(@NotNull T cloth) {
-        return false;
-    }
-
 }

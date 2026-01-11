@@ -1,11 +1,10 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "fatchicken:fatpig_raw"
-  },
+  "category": "food",
+  "experience": 0.7,
+  "cookingtime": 400,
+  "ingredient": "fatchicken:fatpig_raw",
   "result": {
     "id": "fatchicken:fatpig"
-  },
-  "experience": 0.7,
-  "cookingtime": 400
+  }
 }

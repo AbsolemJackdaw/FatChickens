@@ -3,13 +3,11 @@ package jackdaw.fatchicken.items;
 import jackdaw.fatchicken.entity.TableCloth;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -31,22 +29,17 @@ public class TableClothItem extends Item {
             return InteractionResult.FAIL;
         } else {
             Level level = context.getLevel();
-            TableCloth cloth = new TableCloth(level, blockpos1, direction);
-
-            CustomData customdata = itemstack.getOrDefault(DataComponents.ENTITY_DATA, CustomData.EMPTY);
-            if (!customdata.isEmpty()) {
-                EntityType.updateCustomEntityTag(level, player, cloth, customdata);
-            }
-
-            if (cloth.survives()) {
-                if (!level.isClientSide) {
-                    cloth.playPlacementSound();
-                    level.gameEvent(player, GameEvent.ENTITY_PLACE, blockpos);
-                    level.addFreshEntity(cloth);
+            TableCloth clothEntity = new TableCloth(level, blockpos1, direction);
+            EntityType.createDefaultStackConfig(level, itemstack, player).accept(clothEntity);
+            if (clothEntity.survives()) {
+                if (!level.isClientSide()) {
+                    clothEntity.playPlacementSound();
+                    level.gameEvent(player, GameEvent.ENTITY_PLACE, clothEntity.position());
+                    level.addFreshEntity(clothEntity);
                 }
 
                 itemstack.shrink(1);
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.SUCCESS;
             } else {
                 return InteractionResult.CONSUME;
             }

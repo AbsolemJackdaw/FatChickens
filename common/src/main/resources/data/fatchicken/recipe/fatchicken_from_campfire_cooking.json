@@ -1,11 +1,10 @@
 {
   "type": "minecraft:campfire_cooking",
-  "ingredient": {
-    "item": "fatchicken:fatchicken_raw"
-  },
+  "category": "food",
+  "cookingtime": 2000,
+  "experience": 0.35,
+  "ingredient": "fatchicken:fatchicken_raw",
   "result": {
     "id": "fatchicken:fatchicken"
-  },
-  "experience": 0.35,
-  "cookingtime": 2000
+  }
 }

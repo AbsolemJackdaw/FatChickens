@@ -3,9 +3,7 @@
   "category": "food",
   "experience": 0.7,
   "cookingtime": 400,
-  "ingredient": {
-    "item": "fatchicken:fatchicken_raw"
-  },
+  "ingredient": "fatchicken:fatchicken_raw",
   "result": {
     "id": "fatchicken:fatchicken"
   }

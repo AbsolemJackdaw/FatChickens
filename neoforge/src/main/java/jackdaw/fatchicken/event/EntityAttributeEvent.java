@@ -4,10 +4,9 @@ import jackdaw.fatchicken.CommonMod;
 import jackdaw.fatchicken.registry.FatChickenEntities;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 
-@EventBusSubscriber(modid = CommonMod.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CommonMod.ID)
 public class EntityAttributeEvent {
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {

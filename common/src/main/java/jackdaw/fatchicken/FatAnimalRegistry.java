@@ -2,6 +2,7 @@ package jackdaw.fatchicken;
 
 import jackdaw.fatchicken.entity.FatAnimal;
 import jackdaw.fatchicken.exception.NoSuchTransformationException;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -25,6 +26,6 @@ public class FatAnimalRegistry {
             throw new NoSuchTransformationException(skinny);
         if (fatAnimals.get(skinny).make() == null)
             throw new NoSuchTransformationException(String.format("no fatty registered for %s", skinny.getDescriptionId()));
-        return (LivingEntity) fatAnimals.get(skinny).make().create(level);
+        return (LivingEntity) fatAnimals.get(skinny).make().create(level, EntitySpawnReason.CONVERSION);
     }
 }

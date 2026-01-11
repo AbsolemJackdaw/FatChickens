@@ -22,7 +22,7 @@ public class FeedAnimalsEvent {
                 if (tagflag) {
                     if (entity instanceof LivingEntity living && FabricFat.get(living).isPresent())
                         FabricFat.get(living).ifPresent(data -> {
-                            if (player.level().isClientSide) {
+                            if (player.level().isClientSide()) {
                                 for (int i = 0; i < 3; i++)
                                     player.level().addParticle(ParticleTypes.HAPPY_VILLAGER, entity.getRandomX(1.0D), entity.getRandomY() + 0.5D, entity.getRandomZ(1.0D), rand.nextDouble() / 100d, rand.nextDouble() / 100d, rand.nextDouble() / 100d);
                             } else {

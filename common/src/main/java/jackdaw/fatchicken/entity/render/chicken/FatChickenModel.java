@@ -1,12 +1,11 @@
 package jackdaw.fatchicken.entity.render.chicken;
 
-import jackdaw.fatchicken.entity.FatChicken;
-import net.minecraft.client.model.ChickenModel;
+import net.minecraft.client.model.animal.chicken.ChickenModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 
-public class FatChickenModel<F extends FatChicken> extends ChickenModel<FatChicken> {
+public class FatChickenModel extends ChickenModel {
     public FatChickenModel(ModelPart modelPart) {
         super(modelPart);
     }

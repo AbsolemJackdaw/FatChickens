@@ -7,9 +7,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 public class FatChickenBlocks {
 
     public static void register() {
-        Registry.register(BuiltInRegistries.BLOCK, CommonMod.reslocChicken, CommonMod.Blocks.CHICKEN_BLOCK);
-        Registry.register(BuiltInRegistries.BLOCK, CommonMod.reslocPig, CommonMod.Blocks.PIG_BLOCK);
-        Registry.register(BuiltInRegistries.BLOCK, CommonMod.reslocFish, CommonMod.Blocks.FISH_BLOCK);
-        Registry.register(BuiltInRegistries.BLOCK, CommonMod.reslocLog, CommonMod.Blocks.ICE_CREAM_LOG);
+        Registry.register(BuiltInRegistries.BLOCK, CommonMod.ResLocs.chicken, CommonMod.Blocks.CHICKEN);
+        Registry.register(BuiltInRegistries.BLOCK, CommonMod.ResLocs.pig, CommonMod.Blocks.PIG);
+        Registry.register(BuiltInRegistries.BLOCK, CommonMod.ResLocs.fish, CommonMod.Blocks.FISH);
+        Registry.register(BuiltInRegistries.BLOCK, CommonMod.ResLocs.log, CommonMod.Blocks.ICE_CREAM_LOG);
     }
 }
